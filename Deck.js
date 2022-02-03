@@ -45,7 +45,10 @@ class Deck {
 	createHtmlCards(length) {
 		let htmlInsert = ''; 
 		for (let i = 0; i < length; i++) {
-			htmlInsert += `<a id="cardchoice-${i}" class="cardchoice" href="#" style="background-image: url('${this.cards[i].image}'); ${this.cards[i].special === 'montagne' ? 'color: red' : ''}">${this.cards[i].value}<br/>${this.cards[i].special ? this.cards[i].special : ''}</a>`; 
+			let textColor = '#fff'; 
+			if (this.cards[i].special === 'montagne') { textColor = 'red' }
+			else if (this.cards[i].special === 'descente') { textColor = 'blue' }
+			htmlInsert += `<a id="cardchoice-${i}" class="cardchoice" href="#" style="background-image: url('${this.cards[i].image}'); color: ${textColor}">${this.cards[i].value}<br/>${this.cards[i].special ? this.cards[i].special : ''}</a>`; 
 		}
 		return htmlInsert; 
 	}
@@ -73,16 +76,31 @@ class Deck {
 	}
 
 	checkSpecialRule(playedCard) {
-		if (playedCard.special === 'montagne') {
-			alert('Pas de limite en ascension'); 
-		} else if (playedCard.special === 'récupération') {
+		console.log(playedCard.special.length); 
+		console.log(typeof playedCard.special); 
+		if (typeof playedCard.special === 'string') {
+			this.applySpecialRule(playedCard.special, playedCard)
+		} else {
+			for (let i in playedCard.special) {
+				this.applySpecialRule(playedCard.special[i], playedCard); 
+			}
+		}
+		
+	}
+
+	applySpecialRule(ruleName, playedCard) {
+		if (ruleName === 'montagne') {
+			alert("La limite en ascension est de 6 cases au lieu de 5"); 
+		} else if (ruleName === 'récupération') {
 			alert('Suppression d\'une carte fatigue'); 
 			this.deleteExhaustion(); 
-		} else if (playedCard.special === 'super aspiration') {
+		} else if (ruleName === 'super aspiration') {
 			alert('Le coureur bénéficie de 2 cases d\'aspiration au lieu d\'une'); 
-		} else if (playedCard.special === 'endurance') {
+		} else if (ruleName === 'endurance') {
 			alert("La carte jouée est remise dans la pile des cartes recyclées"); 
 			this.recyclePlayedCard(playedCard); 
+		} else if (ruleName === 'descente') {
+			alert("Le déplacement en descente est de 7 cases au lieu de 5"); 
 		}
 	}
 
