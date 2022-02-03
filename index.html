@@ -44,30 +44,33 @@
 
 		deck.shuffleDeck();
 
+		const cardsContainer = document.querySelector('#cardchoice-container'); 
 
 		/**
 		 * EVENT MANAGER
 		 */
 		window.addEventListener('click', event => {
 			// console.log(event.target); 
-			if (event.target.classList.contains('cardchoice')) {
+			if (event.target.id === 'pickcards-button') {
+				cardsContainer.innerHTML = deck.displayFourCards(); 
+			} else if (event.target.classList.contains('cardchoice')) {
 				let indexOfSelectedCard = event.target.id.split('-')[1]; 
-				// console.log(`carte sélectionnées index = ${event.target.id.split('-')[1]}`); 
 				deck.selectSingleCard(indexOfSelectedCard); 
-				document.querySelector('#cardchoice-container').innerHTML = '<button class="btn-exhaustion" id="add-exhaustion">Fatigue</button><button class="btn-exhaustion" id="skip-exhaustion">Pas de fatigue</button>'; 
-				console.log(deck.cards.length + deck.recycle.length, deck); 
-			} else if (event.target.id === 'pickcards-button') {
-				document.querySelector('#cardchoice-container').innerHTML = deck.displayFourCards(); 
+				cardsContainer.innerHTML = deck.displayHiddenCard(); 
+			} else if (event.target.id === 'show-hidden-card') {
+				cardsContainer.innerHTML = deck.displayLastPlayedCard(); 
+			} else if (event.target.id === 'show-last-played-card') {
+				cardsContainer.innerHTML = '<button class="btn-exhaustion" id="add-exhaustion">Fatigue</button><button class="btn-exhaustion" id="skip-exhaustion">Pas de fatigue</button>'; 
 			} else if (event.target.id === 'add-exhaustion') {
 				deck.addExhaustion(); 
-				document.querySelector('#cardchoice-container').innerHTML = ''; 
+				cardsContainer.innerHTML = ''; 
 				//update tours counter : 
 				document.querySelector('.tour-counter').innerHTML = `Tour ${deck.played.length + 1}`; 
 			} else if (event.target.id === 'skip-exhaustion') {
-				document.querySelector('#cardchoice-container').innerHTML = ''; 
+				cardsContainer.innerHTML = ''; 
 				//update tours counter : 
 				document.querySelector('.tour-counter').innerHTML = `Tour ${deck.played.length + 1}`; 
-			}
+			}  
 		})
 
 	</script>

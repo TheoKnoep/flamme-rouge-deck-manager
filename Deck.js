@@ -48,8 +48,22 @@ class Deck {
 			let textColor = '#fff'; 
 			if (this.cards[i].special === 'montagne') { textColor = 'red' }
 			else if (this.cards[i].special === 'descente') { textColor = 'blue' }
-			htmlInsert += `<a id="cardchoice-${i}" class="cardchoice" href="#" style="background-image: url('${this.cards[i].image}'); color: ${textColor}">${this.cards[i].value}<br/>${this.cards[i].special ? this.cards[i].special : ''}</a>`; 
+			htmlInsert += `<a id="cardchoice-${i}" class="cardchoice cardchoice-style" href="#" style="background-image: url('${this.cards[i].image}'); color: ${textColor}">${this.cards[i].value}<br/><span class="small-text">${this.cards[i].special ? this.cards[i].special : ''}</span></a>`; 
 		}
+		return htmlInsert; 
+	}
+
+	displayLastPlayedCard() {
+		let index = this.played.length - 1; 
+		let textColor = '#fff'; 
+		if (this.played[index].special === 'montagne') { textColor = 'red' }
+		else if (this.played[index].special === 'descente') { textColor = 'blue' }
+		let htmlInsert = `<a id="show-last-played-card" class="cardchoice-style" href="#" style="background-image: url('${this.played[index].image}'); color: ${textColor}">${this.played[index].value}<br/><span class="small-text">${this.played[index].special ? this.played[index].special : ''}</span></a>`; 
+		return htmlInsert; 
+	}
+
+	displayHiddenCard() {
+		let htmlInsert = `<a id="show-hidden-card" class="cardchoice-style" href="#" style="background-image: url('hidden.png'); "><span class="small-text"><em>Tapez pour révéler la carte choisie</em></span></a>`; 
 		return htmlInsert; 
 	}
 
@@ -76,8 +90,6 @@ class Deck {
 	}
 
 	checkSpecialRule(playedCard) {
-		console.log(playedCard.special.length); 
-		console.log(typeof playedCard.special); 
 		if (typeof playedCard.special === 'string') {
 			this.applySpecialRule(playedCard.special, playedCard)
 		} else {
