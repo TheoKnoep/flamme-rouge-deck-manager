@@ -1,0 +1,77 @@
+* {
+	margin: 0; 
+	padding: 0; 
+}
+
+body {
+	background-color: #fff7e5; 
+}
+
+.green {
+	background-color:  #33a633;
+}
+.blue {
+	background-color:  #335ba6;
+}
+.red {
+	background-color:  #a63733;
+}
+.black {
+	background-color:  #3f3f3f;
+}
+
+
+.pickbtn-container {
+	height: 20vh;
+	width: 100%; 
+	display: flex; 
+	justify-content: center;
+	align-items: center;
+}
+.tour-counter {
+	margin-right: auto; 
+	margin-left: 12px; 
+}
+#pickcards-button {
+	margin-right: 12px;
+}
+
+#cardchoice-container {
+	width: 100%; 
+	height: 80vh;
+	display: flex; 
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
+.cardchoice {
+	width: calc( 50% - 24px ); 
+	height: calc(40vh - 24px); 
+	background-size: cover;
+	background-position: center;
+	display: flex;
+    justify-content: center;
+    align-items: center;
+	font-family: 'Gill Sans MT';
+	text-align: center;
+	color: #fff;
+	text-decoration: none;
+	font-size: 4em; 
+	margin: 12px;
+    border-radius: 12px;
+    box-shadow: 2px 2px 8px rgba(0,0,0,.25); 
+	text-shadow: 1px 1px 4px rgba(0,0,0,.5); 
+}
+
+.btn-exhaustion {
+	margin: 12px; 
+	height: 48px; 
+	width: 220px;
+}
+#add-exhaustion {
+	font-weight: bold;
+}
+#skip-exhaustion {
+	opacity: .85; 
+	font-style: italic;
+}

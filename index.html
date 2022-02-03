@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Flamme Rouge Deck Manager</title>
+
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+	<div id="app-container">
+		<div class="pickbtn-container red">
+			<div class="tour-counter">Tour 1</div>
+			<button id="pickcards-button">Piocher 4 cartes</button>
+		</div>
+		<div id="cardchoice-container"></div>
+	</div>
+	
+	
+
+	<script src="Card.js"></script>
+	<script src="Deck.js"></script>
+	<script>
+		let deck = new Deck([
+			new Card(2, 'super aspiration'),
+			new Card(3, 'endurance'),
+			new Card(4, 'récupération'),
+			new Card(5, 'endurance'), 
+			new Card(6, 'montagne'), 
+			new Card(7, 'montagne'), 
+			new Card(8), 
+			new Card(10)
+		]); 
+		
+
+		deck.shuffleDeck();
+
+
+		/**
+		 * EVENT MANAGER
+		 */
+		window.addEventListener('click', event => {
+			// console.log(event.target); 
+			if (event.target.classList.contains('cardchoice')) {
+				let indexOfSelectedCard = event.target.id.split('-')[1]; 
+				// console.log(`carte sélectionnées index = ${event.target.id.split('-')[1]}`); 
+				deck.selectSingleCard(indexOfSelectedCard); 
+				document.querySelector('#cardchoice-container').innerHTML = '<button class="btn-exhaustion" id="add-exhaustion">Fatigue</button><button class="btn-exhaustion" id="skip-exhaustion">Pas de fatigue</button>'; 
+				console.log(deck.cards.length + deck.recycle.length, deck); 
+			} else if (event.target.id === 'pickcards-button') {
+				document.querySelector('#cardchoice-container').innerHTML = deck.displayFourCards(); 
+			} else if (event.target.id === 'add-exhaustion') {
+				deck.addExhaustion(); 
+				document.querySelector('#cardchoice-container').innerHTML = ''; 
+				//update tours counter : 
+				document.querySelector('.tour-counter').innerHTML = `Tour ${deck.played.length + 1}`; 
+			} else if (event.target.id === 'skip-exhaustion') {
+				document.querySelector('#cardchoice-container').innerHTML = ''; 
+				//update tours counter : 
+				document.querySelector('.tour-counter').innerHTML = `Tour ${deck.played.length + 1}`; 
+			}
+		})
+
+	</script>
+</body>
+</html>
