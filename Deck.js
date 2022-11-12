@@ -1,5 +1,6 @@
 class Deck {
-	constructor(arrayOfCards) {
+	constructor(name, arrayOfCards) {
+		this.name = name;
 		this.cards = arrayOfCards, 
 		this.recycle = [],
 		this.played = [], 
@@ -56,7 +57,7 @@ class Deck {
 			let textColor = '#fff'; 
 			if (this.cards[i].special === 'montagne') { textColor = 'red' }
 			else if (this.cards[i].special === 'descente') { textColor = 'blue' }
-			htmlInsert += `<a id="cardchoice-${i}" class="cardchoice cardchoice-style" href="#" style="background-image: url('${this.cards[i].image}'); color: ${textColor}">${this.cards[i].value}<br/><span class="small-text">${this.cards[i].special ? this.cards[i].special : ''}</span></a>`; 
+			htmlInsert += `<a id="cardchoice-${i}" class="${this.id}-cardchoice cardchoice-style" href="#" style="background-image: url('${this.cards[i].image}'); color: ${textColor}">${this.cards[i].value}<br/><span class="small-text">${this.cards[i].special ? this.cards[i].special : ''}</span></a>`; 
 		}
 		return htmlInsert; 
 	}
@@ -77,7 +78,7 @@ class Deck {
 
 	selectSingleCard(index) {
 		//check if special rule applied : 
-		console.log(this.cards[index].special); 
+		console.log('la carte choisie a une règle spéciale ?', this.cards[index].special); 
 
 		this.checkSpecialRule(this.cards[index]); 
 		
@@ -169,15 +170,15 @@ class Deck {
 
 	renderHTML() {
 		let content = `
-			<div class="${this.id}-deck-container" id="${this.id}">
+			<div class="${this.id}-deck-container deck-container" id="${this.id}">
 				<div class="${this.id}-pickbtn-container red">
+					<div>${this.name}</div>
 					<div class="${this.id}-tour-counter">Tour 1</div>
 					<button id="${this.id}-pickcards-button">Piocher 4 cartes</button>
 				</div>
 				<div id="${this.id}-cardchoice-container"></div>
 			</div>`; 
 		document.querySelector('#app-container').insertAdjacentHTML('beforeend', content); 
-		this.addEventsHandler(); 
 	}
 
 
@@ -188,21 +189,21 @@ class Deck {
 					document.querySelector(`#${this.id}-cardchoice-container`).innerHTML = this.displayFourCards(); 
 				} else if (event.target.classList.contains(`${this.id}-cardchoice`)) {
 					let indexOfSelectedCard = event.target.id.split('-')[1]; 
-					deck.selectSingleCard(indexOfSelectedCard); 
-					document.querySelector(`#${this.id}-cardchoice-container`).innerHTML = deck.displayHiddenCard(); 
-				} else if ( checkParentsID(event.target, 'show-hidden-card') ) {
-					document.querySelector(`#${this.id}-cardchoice-container`).innerHTML = deck.displayLastPlayedCard(); 
+					this.selectSingleCard(indexOfSelectedCard); 
+					document.querySelector(`#${this.id}-cardchoice-container`).innerHTML = this.displayHiddenCard(); 
+				} else if ( checkParentsID(event.target, `${this.id}-show-hidden-card`) ) {
+					document.querySelector(`#${this.id}-cardchoice-container`).innerHTML = this.displayLastPlayedCard(); 
 				} else if (event.target.id === `${this.id}-show-last-played-card`) {
-					document.querySelector(`#${this.id}-cardchoice-container`).innerHTML = '<button class="btn-exhaustion" id="add-exhaustion">Fatigue</button><button class="btn-exhaustion" id="skip-exhaustion">Pas de fatigue</button>'; 
+					document.querySelector(`#${this.id}-cardchoice-container`).innerHTML = `<button class="btn-exhaustion" id="${this.id}-add-exhaustion">Fatigue</button><button class="btn-exhaustion" id="${this.id}-skip-exhaustion">Pas de fatigue</button>`; 
 				} else if (event.target.id === `${this.id}-add-exhaustion`) {
-					deck.addExhaustion(); 
+					this.addExhaustion(); 
 					document.querySelector(`#${this.id}-cardchoice-container`).innerHTML = ''; 
 					//update tours counter : 
-					document.querySelector(`.${this.id}-tour-counter`).innerHTML = 'Tour ${this.played.length + 1}'; 
+					document.querySelector(`.${this.id}-tour-counter`).innerHTML = `Tour ${this.played.length + 1}`; 
 				} else if (event.target.id === `${this.id}-skip-exhaustion`) {
 					document.querySelector(`#${this.id}-cardchoice-container`).innerHTML = ''; 
 					//update tours counter : 
-					document.querySelector('.tour-counter').innerHTML = `Tour ${this.played.length + 1}`; 
+					document.querySelector(`.${this.id}-tour-counter`).innerHTML = `Tour ${this.played.length + 1}`; 
 				}  
 			});
 	}

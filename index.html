@@ -19,7 +19,7 @@
 	<script src="Card.js"></script>
 	<script src="Deck.js"></script>
 	<script>
-		let grimpeur = new Deck([ //grimpeur
+		let grimpeur = new Deck('Grimpeur', [ //grimpeur
 			new Card(2), 
 			new Card(2),
 			new Card(2), 
@@ -42,7 +42,7 @@
 		grimpeur.init(); 
 
 
-		let domestique = new Deck([ //domestique
+		let domestique = new Deck('Domestique', [ //domestique
 			new Card(2), 
 			new Card(2),
 			new Card(2), 
@@ -66,34 +66,6 @@
 
 
 
-
-
-		// const cardsContainer = document.querySelector('#cardchoice-container'); 
-
-		/************* EVENT MANAGER *************/
-		// window.addEventListener('click', event => {
-		// 	// console.log(event.target); 
-		// 	if (event.target.id === 'pickcards-button') {
-		// 		cardsContainer.innerHTML = deck.displayFourCards(); 
-		// 	} else if (event.target.classList.contains('cardchoice')) {
-		// 		let indexOfSelectedCard = event.target.id.split('-')[1]; 
-		// 		deck.selectSingleCard(indexOfSelectedCard); 
-		// 		cardsContainer.innerHTML = deck.displayHiddenCard(); 
-		// 	} else if ( checkParentsID(event.target, 'show-hidden-card') ) {
-		// 		cardsContainer.innerHTML = deck.displayLastPlayedCard(); 
-		// 	} else if (event.target.id === 'show-last-played-card') {
-		// 		cardsContainer.innerHTML = '<button class="btn-exhaustion" id="add-exhaustion">Fatigue</button><button class="btn-exhaustion" id="skip-exhaustion">Pas de fatigue</button>'; 
-		// 	} else if (event.target.id === 'add-exhaustion') {
-		// 		deck.addExhaustion(); 
-		// 		cardsContainer.innerHTML = ''; 
-		// 		//update tours counter : 
-		// 		document.querySelector('.tour-counter').innerHTML = `Tour ${deck.played.length + 1}`; 
-		// 	} else if (event.target.id === 'skip-exhaustion') {
-		// 		cardsContainer.innerHTML = ''; 
-		// 		//update tours counter : 
-		// 		document.querySelector('.tour-counter').innerHTML = `Tour ${deck.played.length + 1}`; 
-		// 	}  
-		// })
 
 
 
