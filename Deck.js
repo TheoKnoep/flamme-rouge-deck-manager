@@ -57,7 +57,7 @@ class Deck {
 			let textColor = '#fff'; 
 			if (this.cards[i].special === 'montagne') { textColor = 'red' }
 			else if (this.cards[i].special === 'descente') { textColor = 'blue' }
-			htmlInsert += `<a id="cardchoice-${i}" class="${this.id}-cardchoice cardchoice-style" href="#" style="background-image: url('${this.cards[i].image}'); color: ${textColor}">${this.cards[i].value}<br/><span class="small-text">${this.cards[i].special ? this.cards[i].special : ''}</span></a>`; 
+			htmlInsert += `<a id="cardchoice-${i}" class="${this.id}-cardchoice cardchoice-style" href="#" style="color: ${textColor}">${this.cards[i].value}<br/><span class="small-text">${this.cards[i].special ? this.cards[i].special : ''}</span></a>`; 
 		}
 		return htmlInsert; 
 	}
@@ -67,12 +67,12 @@ class Deck {
 		let textColor = '#fff'; 
 		if (this.played[index].special === 'montagne') { textColor = 'red' }
 		else if (this.played[index].special === 'descente') { textColor = 'blue' }
-		let htmlInsert = `<a id="${this.id}-show-last-played-card" class="${this.id}-cardchoice-style" href="#" style="background-image: url('${this.played[index].image}'); color: ${textColor}">${this.played[index].value}<br/><span class="small-text">${this.played[index].special ? this.played[index].special : ''}</span></a>`; 
+		let htmlInsert = `<a id="${this.id}-show-last-played-card" class="${this.id}-cardchoice-style" href="#" color: ${textColor}">${this.played[index].value}<br/><span class="small-text">${this.played[index].special ? this.played[index].special : ''}</span></a>`; 
 		return htmlInsert; 
 	}
 
 	displayHiddenCard() {
-		let htmlInsert = `<a id="${this.id}-show-hidden-card" class="${this.id}-cardchoice-style" href="#" style="background-image: url('hidden.png'); "><span class="small-text"><em>Tapez pour révéler la carte choisie</em></span></a>`; 
+		let htmlInsert = `<a id="${this.id}-show-hidden-card" class="${this.id}-cardchoice-style" href="#"); "><span class="small-text"><em>Tapez pour révéler la carte choisie</em></span></a>`; 
 		return htmlInsert; 
 	}
 
@@ -122,12 +122,16 @@ class Deck {
 			this.recyclePlayedCard(playedCard); 
 		} else if (ruleName === 'descente') {
 			alert("Le déplacement en descente est de 7 cases au lieu de 5"); 
-		} else if (ruleName === 'agile') {
+		} else if (ruleName === 'troisième file') {
 			alert("Le coureur peut bénéfier d'une file supplémentaire s'il termine son mouvement sur une case déjà complètement occupée"); 
 		} else if (ruleName === 'pas d\'aspiration') {
 			alert("Le coureur ne permet pas à un autre coureur de bénéficer de son aspiration"); 
 		} else if(ruleName === 'aspiration en montagne') {
 			alert("Le coureur peut bénéficier de l'aspiration donnée par un autre coureur même s'il est en ascension")
+		} else if (ruleName === 'pas de fatigue') {
+			alert("Le coureur ne prend pas de fatigue lors de ce tour quoi qu'il arrive"); 
+		} else if (ruleName === 'attaque fulgurante') {
+			alert("Ce coureur se déplace en premier quelle que soit sa position actuelle")
 		}
 	}
 
@@ -211,7 +215,6 @@ class Deck {
 	addStyle() {
 		let style = `
 			.${this.id}-pickbtn-container {
-				height: 20vh;
 				width: 100%; 
 				display: flex; 
 				justify-content: center;
@@ -227,7 +230,6 @@ class Deck {
 				border: none; 
 				background-color: rgba(255,255,255,0.25);
 				cursor: pointer;
-				height: 90%;
 			}
 			#${this.id}-pickcards-button:active {
 				background-color: rgba(255,255,255,0.55);
@@ -287,5 +289,97 @@ class Deck {
 			output += numbers[Math.floor(Math.random() * numbers.length)]; 
 		}
 		return output; 
+	}
+
+
+
+
+	static racersProfiles() {
+		return {
+			sprinteur: [
+				new Card(2),
+				new Card(2),
+				new Card(2),
+				new Card(3),
+				new Card(3),
+				new Card(3),
+				new Card(4),
+				new Card(4),
+				new Card(4),
+				new Card(5),
+				new Card(5),
+				new Card(5),
+				new Card(9),
+				new Card(9),
+				new Card(9)
+			],
+			rouleur: [
+				new Card(3),
+				new Card(3),
+				new Card(3),
+				new Card(4),
+				new Card(4),
+				new Card(4),
+				new Card(5),
+				new Card(5),
+				new Card(5),
+				new Card(6),
+				new Card(6),
+				new Card(6),
+				new Card(7),
+				new Card(7),
+				new Card(7)
+			],
+			puncheur: [ 
+				new Card(3), 
+				new Card(3), 
+				new Card(3), 
+				new Card(4), 
+				new Card(4), 
+				new Card(5), 
+				new Card(5),
+				new Card(5),
+				new Card(6),
+				new Card(6),
+				new Card(7),
+				new Card(7),
+				new Card(7), 
+				new Card(8, ['attaque fulgurante', 'pas de fatigue'])
+			], 
+			flahute: [ 
+				new Card(2), 
+				new Card(2),
+				new Card(2), 
+				new Card(3), 
+				new Card(3), 
+				new Card(3), 
+				new Card(4), 
+				new Card(4), 
+				new Card(5), 
+				new Card(5),
+				new Card(5),
+				new Card(9), 
+				new Card(6, "troisième file"), 
+				new Card(9, "troisième file"), 
+				new Card(9, "troisième file")
+			], 
+			polyvalent: [
+				new Card(2),
+				new Card(2),
+				new Card(2),
+				new Card(3),
+				new Card(3),
+				new Card(3),
+				new Card(4),
+				new Card(5),
+				new Card(5),
+				new Card(5),
+				new Card(9),
+				new Card(9),
+				new Card(9), 
+				new Card(6), 
+				new Card(6)
+			]
+		}
 	}
 }

@@ -19,50 +19,24 @@
 	<script src="Card.js"></script>
 	<script src="Deck.js"></script>
 	<script>
-		let grimpeur = new Deck('Grimpeur', [ //grimpeur
-			new Card(2), 
-			new Card(2),
-			new Card(2), 
-			new Card(3), 
-			new Card(3), 
-			new Card(3), 
-			new Card(4, 'aspiration en montagne'), 
-			new Card(4, 'aspiration en montagne'), 
-			new Card(4, 'aspiration en montagne'), 
-			new Card(5), 
-			new Card(5),
-			new Card(5),
-			new Card(6, 'montagne'),
-			new Card(6, 'montagne'),
-			new Card(6, 'montagne'),
-			new Card(7),
-			new Card(7),
-			new Card(7)
-		]); 
-		grimpeur.init(); 
+		const puncheur = new Deck('Puncheur', Deck.racersProfiles()['puncheur']); 
+		puncheur.init(); 
 
 
-		let domestique = new Deck('Domestique', [ //domestique
-			new Card(2), 
-			new Card(2),
-			new Card(2), 
-			new Card(3), 
-			new Card(3), 
-			new Card(3), 
-			new Card(4, 'endurance'), 
-			new Card(4, 'endurance'), 
-			new Card(4, 'endurance'), 
-			new Card(5), 
-			new Card(5),
-			new Card(5),
-			new Card(6),
-			new Card(6),
-			new Card(6),
-			new Card(7),
-			new Card(7),
-			new Card(7)
-		]); 
-		domestique.init(); 
+		
+		// INIT RACER WITH PARAMS IN URL : 
+		if (location.search) {
+			let params = new URLSearchParams(location.search); 
+			let name = params.get('name'); 
+			let profile = params.get('profile'); 
+			const newRider = new Deck(name, Deck.racersProfiles()[profile]); 
+			newRider.init(); 
+		} else {
+			const flahute = new Deck('Flahute', Deck.racersProfiles()['flahute']); 
+			flahute.init(); 
+		}
+		
+
 
 
 
@@ -80,6 +54,11 @@
 			}
 		}
 		
+
+
+
+	
+	
 
 	</script>
 </body>
