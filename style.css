@@ -38,6 +38,14 @@ body {
 }
 #pickcards-button {
 	margin-right: 12px;
+	padding: 2em;
+	border: none; 
+	background-color: rgba(255,255,255,0.25);
+	cursor: pointer;
+	height: 90%;
+}
+#pickcards-button:active {
+	background-color: rgba(255,255,255,0.55);
 }
 
 #cardchoice-container {

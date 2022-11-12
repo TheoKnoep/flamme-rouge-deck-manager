@@ -2,7 +2,15 @@ class Deck {
 	constructor(arrayOfCards) {
 		this.cards = arrayOfCards, 
 		this.recycle = [],
-		this.played = []
+		this.played = [], 
+		this.id = this.generateID(); 
+	}
+
+	init() {
+		this.shuffleDeck(); 
+		this.renderHTML(); 
+		this.addStyle(); 
+		this.addEventsHandler(); 
 	}
 
 	shuffleDeck(array = this.cards) {
@@ -58,12 +66,12 @@ class Deck {
 		let textColor = '#fff'; 
 		if (this.played[index].special === 'montagne') { textColor = 'red' }
 		else if (this.played[index].special === 'descente') { textColor = 'blue' }
-		let htmlInsert = `<a id="show-last-played-card" class="cardchoice-style" href="#" style="background-image: url('${this.played[index].image}'); color: ${textColor}">${this.played[index].value}<br/><span class="small-text">${this.played[index].special ? this.played[index].special : ''}</span></a>`; 
+		let htmlInsert = `<a id="${this.id}-show-last-played-card" class="${this.id}-cardchoice-style" href="#" style="background-image: url('${this.played[index].image}'); color: ${textColor}">${this.played[index].value}<br/><span class="small-text">${this.played[index].special ? this.played[index].special : ''}</span></a>`; 
 		return htmlInsert; 
 	}
 
 	displayHiddenCard() {
-		let htmlInsert = `<a id="show-hidden-card" class="cardchoice-style" href="#" style="background-image: url('hidden.png'); "><span class="small-text"><em>Tapez pour révéler la carte choisie</em></span></a>`; 
+		let htmlInsert = `<a id="${this.id}-show-hidden-card" class="${this.id}-cardchoice-style" href="#" style="background-image: url('hidden.png'); "><span class="small-text"><em>Tapez pour révéler la carte choisie</em></span></a>`; 
 		return htmlInsert; 
 	}
 
@@ -102,7 +110,7 @@ class Deck {
 
 	applySpecialRule(ruleName, playedCard) {
 		if (ruleName === 'montagne') {
-			alert("La limite en ascension est de 6 cases au lieu de 5"); 
+			alert("La limite de mouvement en ascension est de 6 cases au lieu de 5"); 
 		} else if (ruleName === 'récupération') {
 			alert('Suppression d\'une carte fatigue'); 
 			this.deleteExhaustion(); 
@@ -113,6 +121,12 @@ class Deck {
 			this.recyclePlayedCard(playedCard); 
 		} else if (ruleName === 'descente') {
 			alert("Le déplacement en descente est de 7 cases au lieu de 5"); 
+		} else if (ruleName === 'agile') {
+			alert("Le coureur peut bénéfier d'une file supplémentaire s'il termine son mouvement sur une case déjà complètement occupée"); 
+		} else if (ruleName === 'pas d\'aspiration') {
+			alert("Le coureur ne permet pas à un autre coureur de bénéficer de son aspiration"); 
+		} else if(ruleName === 'aspiration en montagne') {
+			alert("Le coureur peut bénéficier de l'aspiration donnée par un autre coureur même s'il est en ascension")
 		}
 	}
 
@@ -150,5 +164,127 @@ class Deck {
 	}
 	recyclePlayedCard(playedCard) {
 		this.recycle.push(playedCard); 
+	}
+
+
+	renderHTML() {
+		let content = `
+			<div class="${this.id}-deck-container" id="${this.id}">
+				<div class="${this.id}-pickbtn-container red">
+					<div class="${this.id}-tour-counter">Tour 1</div>
+					<button id="${this.id}-pickcards-button">Piocher 4 cartes</button>
+				</div>
+				<div id="${this.id}-cardchoice-container"></div>
+			</div>`; 
+		document.querySelector('#app-container').insertAdjacentHTML('beforeend', content); 
+		this.addEventsHandler(); 
+	}
+
+
+	addEventsHandler() {
+			window.addEventListener('click', event => {
+				console.log(event.target); 
+				if (event.target.id === `${this.id}-pickcards-button`) {
+					document.querySelector(`#${this.id}-cardchoice-container`).innerHTML = this.displayFourCards(); 
+				} else if (event.target.classList.contains(`${this.id}-cardchoice`)) {
+					let indexOfSelectedCard = event.target.id.split('-')[1]; 
+					deck.selectSingleCard(indexOfSelectedCard); 
+					document.querySelector(`#${this.id}-cardchoice-container`).innerHTML = deck.displayHiddenCard(); 
+				} else if ( checkParentsID(event.target, 'show-hidden-card') ) {
+					document.querySelector(`#${this.id}-cardchoice-container`).innerHTML = deck.displayLastPlayedCard(); 
+				} else if (event.target.id === `${this.id}-show-last-played-card`) {
+					document.querySelector(`#${this.id}-cardchoice-container`).innerHTML = '<button class="btn-exhaustion" id="add-exhaustion">Fatigue</button><button class="btn-exhaustion" id="skip-exhaustion">Pas de fatigue</button>'; 
+				} else if (event.target.id === `${this.id}-add-exhaustion`) {
+					deck.addExhaustion(); 
+					document.querySelector(`#${this.id}-cardchoice-container`).innerHTML = ''; 
+					//update tours counter : 
+					document.querySelector(`.${this.id}-tour-counter`).innerHTML = 'Tour ${this.played.length + 1}'; 
+				} else if (event.target.id === `${this.id}-skip-exhaustion`) {
+					document.querySelector(`#${this.id}-cardchoice-container`).innerHTML = ''; 
+					//update tours counter : 
+					document.querySelector('.tour-counter').innerHTML = `Tour ${this.played.length + 1}`; 
+				}  
+			});
+	}
+
+	addStyle() {
+		let style = `
+			.${this.id}-pickbtn-container {
+				height: 20vh;
+				width: 100%; 
+				display: flex; 
+				justify-content: center;
+				align-items: center;
+			}
+			.${this.id}-tour-counter {
+				margin-right: auto; 
+				margin-left: 12px; 
+			}
+			#${this.id}-pickcards-button {
+				margin-right: 12px;
+				padding: 2em;
+				border: none; 
+				background-color: rgba(255,255,255,0.25);
+				cursor: pointer;
+				height: 90%;
+			}
+			#${this.id}-pickcards-button:active {
+				background-color: rgba(255,255,255,0.55);
+			}
+			
+			#${this.id}-cardchoice-container {
+				width: 100%; 
+				height: 80vh;
+				display: flex; 
+				flex-wrap: wrap;
+				justify-content: center;
+			}
+			
+			.${this.id}-cardchoice-style {
+				width: calc( 50% - 24px ); 
+				height: calc(40vh - 24px); 
+				background-size: cover;
+				background-position: center;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+				font-family: 'Gill Sans MT';
+				text-align: center;
+				color: #fff;
+				text-decoration: none;
+				font-size: 4em; 
+				margin: 12px;
+				border-radius: 12px;
+				box-shadow: 2px 2px 8px rgba(0,0,0,.25); 
+				text-shadow: 1px 1px 3px rgba(0,0,0,.95); 
+			}
+			
+			.btn-exhaustion {
+				margin: 12px; 
+				height: 48px; 
+				width: 220px;
+			}
+			#${this.id}-add-exhaustion {
+				font-weight: bold;
+			}
+			#${this.id}-skip-exhaustion {
+				opacity: .85; 
+				font-style: italic;
+			}`; 
+		document.head.insertAdjacentHTML('beforeend', `<style>${style}</style>`); 
+	}
+
+
+
+	generateID() {
+		let letters = 'AZERTYUIOPQSDFGHJKLMWXCVBN'; 
+		let numbers = '1234567890'; 
+		let output = letters[ Math.floor(Math.random() * letters.length) ]; 
+		let numberOfCharacters = 6; 
+		for (let i = 0; i < numberOfCharacters-1; i++) {
+			output += numbers[Math.floor(Math.random() * numbers.length)]; 
+		}
+		return output; 
 	}
 }
