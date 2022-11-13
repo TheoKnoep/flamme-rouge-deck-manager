@@ -228,7 +228,7 @@ class Deck {
 				} else if (checkParentsID(event.target, `${this.id}-show-hidden-card`) ) {
 					document.querySelector(`#${this.id}-cardchoice-container`).innerHTML = this.displayLastPlayedCard(); 
 				} else if (event.target.id === `${this.id}-show-last-played-card`) {
-					document.querySelector(`#${this.id}-cardchoice-container`).innerHTML = `<button class="btn-exhaustion" id="${this.id}-add-exhaustion">Fatigue</button><button class="btn-exhaustion" id="${this.id}-skip-exhaustion">Pas de fatigue</button>`; 
+					document.querySelector(`#${this.id}-cardchoice-container`).innerHTML = `<button class="btn-exhaustion" id="${this.id}-add-exhaustion" style="font-weight: bold; background: linear-gradient(60deg,#d21818, #9e0000); font-size: 1.2em; border: none;">Fatigue</button><button class="btn-exhaustion" id="${this.id}-skip-exhaustion">pas de fatigue</button>`; 
 				} else if (event.target.id === `${this.id}-add-exhaustion`) {
 					this.addExhaustion(); 
 					document.querySelector(`#${this.id}-cardchoice-container`).innerHTML = ''; 
@@ -297,7 +297,6 @@ class Deck {
 				flex-direction: column;
 				justify-content: center;
 				align-items: center;
-				font-family: 'Gill Sans MT';
 				text-align: center;
 				color: #fff;
 				text-decoration: none;

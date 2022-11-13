@@ -1,9 +1,20 @@
-
+const CACHE_NAME = "flamme-rouge"; 
 
 self.addEventListener("install", function (event) {
-    caches.open('clock').then(function(cache) {
+    caches.open(CACHE_NAME).then(function(cache) {
         return cache.addAll([
-            './'
+            './', 
+            'index.html', 
+            'select.html', 
+            'style.css', 
+            'icon/icon_512x512.png',
+            'icon/icon_384x384.png',
+            'icon/icon_192x192.png',
+            'Card.js',
+            'Deck.js', 
+            'manifest.webmanifest',
+            'verve.ttf', 
+            'custom.html'
         ]);
     });
 });

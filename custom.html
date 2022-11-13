@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="theme-color" content="#000" />
+	<title>Flamme Rouge Deck Manager</title>
+
+	<link rel="stylesheet" href="style.css">
+
+	<link rel="manifest" href="manifest.webmanifest">
+
+
+	<style>
+		#app-container {
+			padding: 1em; 
+		}
+
+		form {
+			display: flex; 
+			flex-direction: column;
+			width: 100%; 
+		}
+		input, select, label {
+			font-size: 1.2em;
+		}
+		input, select {
+			margin: .2em; 
+
+		}
+		select {
+			margin-bottom: 2em;
+		}
+	</style>
+</head>
+<body>
+
+	<div id="app-container">
+		<div class="rider-form">
+			<form id="deck1">
+				<div>
+					<label>1.</label>
+					<input type="number" name="value1">
+					<select id="special1">
+						<option value="">aucune</option>
+						<option value="montagne">Montagne</option>
+						<option value="super montagne">Super Montagne</option>
+						<option value="récupération">Récupération</option>
+						<option value="endurance">Pas de fatigue</option>
+					</select>
+					<button onclick="addSelectSpecial(event);">Ajouter</button>
+				</div>
+			</form>
+
+
+		</div>
+	</div>
+
+
+	<script>
+
+		const specials = {
+			'montagne': "Montagne", 
+			'super montagne': "Super montagne"
+		}; 
+
+		
+		const form1 = document.getElementById('deck1'); 
+		form1.addEventListener('submit', event => {
+			event.preventDefault(); 
+			console.log(event.target); 
+		})
+
+
+		function addSelectSpecial(event) {
+			const list = []; 
+
+			console.log(event.currentTarget.parentElement.querySelectorAll('select'));
+			const otherSelects = event.currentTarget.parentElement.querySelectorAll('select'); 
+			console.log(otherSelects[otherSelects.length-1].value); 
+			if (!otherSelects[otherSelects.length-1].value) { return 'il faut déjà remplir le select existant' }
+			console.log('on ajout un select avec la valeur en moins'); 
+		}
+
+		
+	</script>
+
+</body>
+</html>
