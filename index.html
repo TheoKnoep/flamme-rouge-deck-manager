@@ -31,6 +31,7 @@
 				let color = params.get('color'); 
 				const riderA = new Deck(names[0], color, Deck.racersProfiles()[profiles[0]]); 
 				riderA.init(); 
+				console.log(riderA); 
 				const riderB = new Deck(names[1], color, Deck.racersProfiles()[profiles[1]]); 
 				riderB.init(); 
 			} catch(err) {
@@ -43,6 +44,11 @@
 			rouleur.init(); 
 		}
 		
+
+		// test : 
+		// const test = new Deck("Test", "purple", Deck.racersProfiles()['pur_grimpeur']); 
+		// test.init(); 
+		// console.log(test); 
 
 
 

@@ -161,7 +161,7 @@ class Deck {
 	deleteExhaustion() {
 		let index = -1; 
 		for (let i in this.recycle) {
-			if (this.recycle[i].image === 'exhausted.png') { 
+			if (this.recycle[i].special && this.recycle[i].special === 'fatigue') { 
 				index = i; 
 				break; 
 			}
@@ -174,7 +174,7 @@ class Deck {
 		console.log('no exhaustion founded in recycle'); 
 
 		for (let i in this.cards) {
-			if (this.cards[i].image === 'exhausted.png') { 
+			if (this.cards[i].special && this.cards[i].special === 'fatigue') { 
 				index = i; 
 				break; 
 			}
@@ -190,6 +190,11 @@ class Deck {
 		this.recycle.push(playedCard); 
 	}
 
+	countNumberOfExhaustion(pile) {
+		pile.filter(card => {return card.special === 'fatigue' }); 
+		return pile.filter(card => {return card.special === 'fatigue' }).length; 
+	}
+
 
 	renderHTML() {
 		let content = `
@@ -200,6 +205,7 @@ class Deck {
 					<button id="${this.id}-pickcards-button">Piocher 4 cartes</button>
 				</div>
 				<div id="${this.id}-cardchoice-container"></div>
+				<button id="${this.id}-endrace" class="endrace-btn">Fin de la course</button>
 			</div>`; 
 		document.querySelector('#app-container').insertAdjacentHTML('beforeend', content); 
 	}
@@ -230,14 +236,22 @@ class Deck {
 					document.querySelector(`.${this.id}-tour-counter`).innerHTML = `Tour ${this.played.length + 1}`; 
 					document.getElementById(`${this.id}-pickcards-button`).removeAttribute('disabled');  
 					document.getElementById(`${this.id}-pickcards-button`).style.visibility = 'visible';
+					console.log("Etat actuel : ", this); 
 				} else if (event.target.id === `${this.id}-skip-exhaustion`) {
 					document.querySelector(`#${this.id}-cardchoice-container`).innerHTML = ''; 
 					//update tours counter : 
 					document.querySelector(`.${this.id}-tour-counter`).innerHTML = `Tour ${this.played.length + 1}`;
 					document.getElementById(`${this.id}-pickcards-button`).removeAttribute('disabled');  
 					document.getElementById(`${this.id}-pickcards-button`).style.visibility = 'visible';
+					console.log("Etat actuel : ", this); 
 				}  
 			});
+			document.querySelector(`#${this.id}-endrace`).addEventListener('click', event => {
+				if(confirm("Êtes-vous sûr ?")) {
+					let numberOfFatiguesLeft = this.countNumberOfExhaustion(this.recycle) + this.countNumberOfExhaustion(this.cards); 
+					document.querySelector(`#${this.id}-cardchoice-container`).innerHTML = `<p style="width: 100%; ">Course terminée !</p><p style="width: 100%; ">Il reste ${numberOfFatiguesLeft} cartes fatigues</p>`; 
+				}
+			}); 
 	}
 
 	addStyle() {
@@ -308,6 +322,9 @@ class Deck {
 			}`; 
 		document.head.insertAdjacentHTML('beforeend', `<style>${style}</style>`); 
 	}
+
+
+
 
 
 
@@ -461,6 +478,23 @@ class Deck {
 				new Card(7),
 				new Card(7),
 				new Card(7)
+			], 
+			pur_grimpeur: [
+				new Card(2), 
+				new Card(2), 
+				new Card(2), 
+				new Card(3, 'aspiration en montagne'), 
+				new Card(3, 'aspiration en montagne'), 
+				new Card(3, 'aspiration en montagne'), 
+				new Card(4),
+				new Card(4),
+				new Card(4),
+				new Card(5),
+				new Card(5),
+				new Card(5), 
+				new Card(6, 'super montagne'),
+				new Card(6, 'super montagne'),
+				new Card(6, 'super montagne') 
 			]
 		}
 	}

@@ -16,6 +16,7 @@ new Card(<Integer>: value, <String>: special = null, <String>: image = null);
 Nom 						| Effet 
 ----						|------
 `montagne` 					| La limite de mouvement en ascension est de 6 cases au lieu de 5
+`super montagne`			| La limite de mouvement en ascension est de 7 cases au lieu de 5
 `récupération` 				| Suppression d'une carte fatigue présente dans la pile des cartes recylclées (sans effet si aucune carte fatigue n'y est présente)
 `super aspiration` 			| Le coureur bénéficie de 2 cases d'aspiration au lieu d'une
 `endurance` 				| La carte jouée est remise dans la pile des cartes recyclées
