@@ -51,16 +51,16 @@
 
 
 		// Util function
-		// function checkParentsID(node, id) {
-		// 	if (node && node.id === id) {
-		// 		return true; 
-		// 	} else if (node && node.id !== id) {
-		// 		let parent = node.parentElement; 
-		// 		return checkParentsID(parent, id); 
-		// 	} else {
-		// 		return false; 
-		// 	}
-		// }
+		function checkParentsID(node, id) {
+			if (node && node.id === id) {
+				return true; 
+			} else if (node && node.id !== id) {
+				let parent = node.parentElement; 
+				return checkParentsID(parent, id); 
+			} else {
+				return false; 
+			}
+		}
 		
 
 
