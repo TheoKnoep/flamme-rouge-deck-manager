@@ -74,7 +74,7 @@
 
 		window.addEventListener('contextmenu', event => {
 				console.log(event.target); 
-				if (event.target.classList.contains('cardchoice-style--hidden')) {
+				if (event.target.classList.contains('hidden')) {
 					event.preventDefault(); 
 					alert(event.target.dataset.value); 
 				}
@@ -82,6 +82,11 @@
 	
 
 
+		try {
+			screen.orientation.lock('landscape');
+		} catch(err) {
+			alert(err.toString()); 
+		}
 
 
 	

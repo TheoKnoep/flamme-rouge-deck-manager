@@ -91,7 +91,7 @@ class Deck {
 
 	displayHiddenCard() {
 		let index = this.played.length - 1; 
-		let htmlInsert = `<a id="${this.id}-show-hidden-card" class="${this.id}-cardchoice-style cardchoice-style cardchoice-style--hidden" href="#"); " data-value="${this.played[index].value}"><span class="small-text"><em>Tapez pour révéler la carte choisie</em></span></a>`; 
+		let htmlInsert = `<a id="${this.id}-show-hidden-card" class="${this.id}-cardchoice-style cardchoice-style cardchoice-style--hidden hidden" href="#"); " data-value="${this.played[index].value}"><span class="small-text hidden" data-value="${this.played[index].value}">Tapez pour révéler la carte choisie</span></a>`; 
 		return htmlInsert; 
 	}
 
@@ -212,6 +212,9 @@ class Deck {
 				console.log(event.target); 
 				if (event.target.id === `${this.id}-pickcards-button`) {
 					document.querySelector(`#${this.id}-cardchoice-container`).innerHTML = this.displayFourCards(); 
+					
+					document.getElementById(`${this.id}-pickcards-button`).setAttribute('disabled', 'true'); 
+					document.getElementById(`${this.id}-pickcards-button`).style.visibility = 'hidden'; 
 				} else if (event.target.classList.contains(`${this.id}-cardchoice`)) {
 					let indexOfSelectedCard = event.target.id.split('-')[1]; 
 					this.selectSingleCard(indexOfSelectedCard); 
@@ -225,10 +228,14 @@ class Deck {
 					document.querySelector(`#${this.id}-cardchoice-container`).innerHTML = ''; 
 					//update tours counter : 
 					document.querySelector(`.${this.id}-tour-counter`).innerHTML = `Tour ${this.played.length + 1}`; 
+					document.getElementById(`${this.id}-pickcards-button`).removeAttribute('disabled');  
+					document.getElementById(`${this.id}-pickcards-button`).style.visibility = 'visible';
 				} else if (event.target.id === `${this.id}-skip-exhaustion`) {
 					document.querySelector(`#${this.id}-cardchoice-container`).innerHTML = ''; 
 					//update tours counter : 
-					document.querySelector(`.${this.id}-tour-counter`).innerHTML = `Tour ${this.played.length + 1}`; 
+					document.querySelector(`.${this.id}-tour-counter`).innerHTML = `Tour ${this.played.length + 1}`;
+					document.getElementById(`${this.id}-pickcards-button`).removeAttribute('disabled');  
+					document.getElementById(`${this.id}-pickcards-button`).style.visibility = 'visible';
 				}  
 			});
 	}
