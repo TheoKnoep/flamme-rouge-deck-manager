@@ -19,21 +19,30 @@
 	<script src="Card.js"></script>
 	<script src="Deck.js"></script>
 	<script>
-		const puncheur = new Deck('Puncheur', Deck.racersProfiles()['puncheur']); 
-		puncheur.init(); 
+		// const puncheur = new Deck('Puncheur', Deck.racersProfiles()['puncheur']); 
+		// puncheur.init(); 
 
 
 		
 		// INIT RACER WITH PARAMS IN URL : 
 		if (location.search) {
-			let params = new URLSearchParams(location.search); 
-			let name = params.get('name'); 
-			let profile = params.get('profile'); 
-			const newRider = new Deck(name, Deck.racersProfiles()[profile]); 
-			newRider.init(); 
+			try {
+				let params = new URLSearchParams(location.search); 
+				let names = params.get('names').split(';'); 
+				let profiles = params.get('profiles').split(';'); 
+				let color = params.get('color'); 
+				const riderA = new Deck(names[0], color, Deck.racersProfiles()[profiles[0]]); 
+				riderA.init(); 
+				const riderB = new Deck(names[1], color, Deck.racersProfiles()[profiles[1]]); 
+				riderB.init(); 
+			} catch(err) {
+				alert(err.toString()); 
+			}
 		} else {
-			const flahute = new Deck('Flahute', Deck.racersProfiles()['flahute']); 
-			flahute.init(); 
+			const sprinteur = new Deck('Sprinteur', 'red', Deck.racersProfiles()['sprinteur']); 
+			sprinteur.init(); 
+			const rouleur = new Deck('Rouleur', 'red', Deck.racersProfiles()['rouleur']); 
+			rouleur.init(); 
 		}
 		
 

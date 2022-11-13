@@ -1,28 +1,54 @@
+@font-face {
+    font-family: 'Verve';
+    src: url('verve.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
 * {
 	margin: 0; 
 	padding: 0; 
 	box-sizing: border-box;
+	font-family: 'Verve';
 }
 
 body {
 	background-color: #fff7e5; 
+	background-image: url(background.gif);
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100vh;
+    width: 100vw;
+    background-position: center bottom;
+	font-family: 'Verve', sans-serif;
 }
 
 .small-text {
-	font-size: .5em; 
+	font-size: 18px;
+    text-shadow: none;
+    background: #b76565;
+    display: block;
+    width: 100%;
+    color: white;
 }
 
 .green {
-	background-color:  #33a633;
+	background-color:  #177c17;
 }
 .blue {
-	background-color:  #335ba6;
+	background-color:  #0c46b3;
 }
 .red {
 	background-color:  #a63733;
 }
 .black {
 	background-color:  #3f3f3f;
+}
+.pink {
+	background-color: #FF80AB;
+}
+.purple {
+	background-color: #810c81; 
 }
 
 
@@ -33,19 +59,24 @@ body {
 
 .deck-container {
 	width: 50%;
-    border: solid 1px #a63733;
+}
+
+.name-container {
+	/* font-variant: small-caps; */
+	font-size: 1.8em; 
 }
 
 
 
 
-
 .pickbtn-container {
-	height: 20vh;
+	/* height: 20vh; */
 	width: 100%; 
 	display: flex; 
 	justify-content: center;
 	align-items: center;
+	border-left: solid 4px rgba(255,255,255,0.5);
+	padding-left: 6px;
 }
 .tour-counter {
 	margin-right: auto; 
@@ -80,7 +111,7 @@ body {
 	flex-direction: column;
     justify-content: center;
     align-items: center;
-	font-family: 'Gill Sans MT';
+	/* font-family: 'Gill Sans MT'; */
 	text-align: center;
 	color: #fff;
 	text-decoration: none;
@@ -89,6 +120,19 @@ body {
     border-radius: 12px;
     box-shadow: 2px 2px 8px rgba(0,0,0,.25); 
 	text-shadow: 1px 1px 3px rgba(0,0,0,.95); 
+	background: radial-gradient(wheat, #f9cda6);
+    border: solid white 8px;
+	transition: all ease 240ms;
+}
+.cardchoice-style:hover {
+	transform: scale(1.05); 
+	box-shadow: 4px 4px 16px rgba(0,0,0,.15);
+}
+.cardchoice-style--hidden {
+	background: radial-gradient(transparent, brown);
+    background-image: url(background.gif);
+    background-size: cover;
+    background-position: center bottom;
 }
 
 .btn-exhaustion {

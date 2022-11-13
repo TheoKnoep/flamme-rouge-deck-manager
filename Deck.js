@@ -1,10 +1,11 @@
 class Deck {
-	constructor(name, arrayOfCards) {
+	constructor(name, color, arrayOfCards) {
 		this.name = name;
 		this.cards = arrayOfCards, 
 		this.recycle = [],
 		this.played = [], 
 		this.id = this.generateID(); 
+		this.color = this.verifyColor(color); 
 	}
 
 	init() {
@@ -12,6 +13,16 @@ class Deck {
 		this.renderHTML(); 
 		this.addStyle(); 
 		this.addEventsHandler(); 
+	}
+
+	verifyColor(color) {
+		let acceptable = [
+			'green', 'red', 'pink', 'blue', 'black', 'purple'
+		]; 
+		if (acceptable.indexOf(color) < 0 ) {
+			throw new Error('Color is not accepted'); 
+		}
+		return color; 
 	}
 
 	shuffleDeck(array = this.cards) {
@@ -67,12 +78,12 @@ class Deck {
 		let textColor = '#fff'; 
 		if (this.played[index].special === 'montagne') { textColor = 'red' }
 		else if (this.played[index].special === 'descente') { textColor = 'blue' }
-		let htmlInsert = `<a id="${this.id}-show-last-played-card" class="${this.id}-cardchoice-style" href="#" color: ${textColor}">${this.played[index].value}<br/><span class="small-text">${this.played[index].special ? this.played[index].special : ''}</span></a>`; 
+		let htmlInsert = `<a id="${this.id}-show-last-played-card" class="${this.id}-cardchoice-style cardchoice-style" href="#" color: ${textColor}">${this.played[index].value}<br/><span class="small-text">${this.played[index].special ? this.played[index].special : ''}</span></a>`; 
 		return htmlInsert; 
 	}
 
 	displayHiddenCard() {
-		let htmlInsert = `<a id="${this.id}-show-hidden-card" class="${this.id}-cardchoice-style" href="#"); "><span class="small-text"><em>Tapez pour révéler la carte choisie</em></span></a>`; 
+		let htmlInsert = `<a id="${this.id}-show-hidden-card" class="${this.id}-cardchoice-style cardchoice-style cardchoice-style--hidden" href="#"); "><span class="small-text"><em>Tapez pour révéler la carte choisie</em></span></a>`; 
 		return htmlInsert; 
 	}
 
@@ -175,8 +186,8 @@ class Deck {
 	renderHTML() {
 		let content = `
 			<div class="${this.id}-deck-container deck-container" id="${this.id}">
-				<div class="${this.id}-pickbtn-container red">
-					<div>${this.name}</div>
+				<div class="${this.id}-pickbtn-container pickbtn-container ${this.color}">
+					<div class="name-container"><strong>${this.name}</strong></div>
 					<div class="${this.id}-tour-counter">Tour 1</div>
 					<button id="${this.id}-pickcards-button">Piocher 4 cartes</button>
 				</div>
@@ -219,6 +230,8 @@ class Deck {
 				display: flex; 
 				justify-content: center;
 				align-items: center;
+				color: white; 
+				border-radius: 0 0 4px 4px; 
 			}
 			.${this.id}-tour-counter {
 				margin-right: auto; 
@@ -230,6 +243,7 @@ class Deck {
 				border: none; 
 				background-color: rgba(255,255,255,0.25);
 				cursor: pointer;
+				color: white; 
 			}
 			#${this.id}-pickcards-button:active {
 				background-color: rgba(255,255,255,0.55);
@@ -379,6 +393,23 @@ class Deck {
 				new Card(9), 
 				new Card(6), 
 				new Card(6)
+			], 
+			grimpeur: [
+				new Card(3), 
+				new Card(3),
+				new Card(3),
+				new Card(4, 'aspiration en montagne'),
+				new Card(4, 'aspiration en montagne'),
+				new Card(4, 'aspiration en montagne'),
+				new Card(5),
+				new Card(5),
+				new Card(5),
+				new Card(6, 'montagne'),
+				new Card(6, 'montagne'),
+				new Card(6, 'montagne'),
+				new Card(7),
+				new Card(7),
+				new Card(7)
 			]
 		}
 	}
