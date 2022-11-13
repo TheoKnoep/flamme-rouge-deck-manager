@@ -21,12 +21,7 @@
 
 	<script src="Card.js"></script>
 	<script src="Deck.js"></script>
-	<script>
-		// const puncheur = new Deck('Puncheur', Deck.racersProfiles()['puncheur']); 
-		// puncheur.init(); 
-
-
-		
+	<script>		
 		// INIT RACER WITH PARAMS IN URL : 
 		if (location.search) {
 			try {
@@ -55,16 +50,17 @@
 
 
 
-		function checkParentsID(node, id) {
-			if (node && node.id === id) {
-				return true; 
-			} else if (node && node.id !== id) {
-				let parent = node.parentElement; 
-				return checkParentsID(parent, id); 
-			} else {
-				return false; 
-			}
-		}
+		// Util function
+		// function checkParentsID(node, id) {
+		// 	if (node && node.id === id) {
+		// 		return true; 
+		// 	} else if (node && node.id !== id) {
+		// 		let parent = node.parentElement; 
+		// 		return checkParentsID(parent, id); 
+		// 	} else {
+		// 		return false; 
+		// 	}
+		// }
 		
 
 

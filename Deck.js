@@ -219,7 +219,7 @@ class Deck {
 					let indexOfSelectedCard = event.target.id.split('-')[1]; 
 					this.selectSingleCard(indexOfSelectedCard); 
 					document.querySelector(`#${this.id}-cardchoice-container`).innerHTML = this.displayHiddenCard(); 
-				} else if ( checkParentsID(event.target, `${this.id}-show-hidden-card`) ) {
+				} else if ( this.checkParentsID(event.target, `${this.id}-show-hidden-card`) ) {
 					document.querySelector(`#${this.id}-cardchoice-container`).innerHTML = this.displayLastPlayedCard(); 
 				} else if (event.target.id === `${this.id}-show-last-played-card`) {
 					document.querySelector(`#${this.id}-cardchoice-container`).innerHTML = `<button class="btn-exhaustion" id="${this.id}-add-exhaustion">Fatigue</button><button class="btn-exhaustion" id="${this.id}-skip-exhaustion">Pas de fatigue</button>`; 
@@ -445,6 +445,20 @@ class Deck {
 				new Card(9),
 				new Card(9)
 			]
+		}
+	}
+
+
+
+
+	static checkParentsID(node, id) {
+		if (node && node.id === id) {
+			return true; 
+		} else if (node && node.id !== id) {
+			let parent = node.parentElement; 
+			return this.checkParentsID(parent, id); 
+		} else {
+			return false; 
 		}
 	}
 }
