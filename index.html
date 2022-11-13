@@ -67,25 +67,14 @@
 
 
 
-
+		// allow to check hidden played card by contextmenu action : 
 		window.addEventListener('contextmenu', event => {
-				console.log(event.target); 
-				if (event.target.classList.contains('hidden')) {
-					event.preventDefault(); 
-					alert(event.target.dataset.value); 
-				}
-			})
-	
-
-
-		try {
-			screen.orientation.lock('landscape')
-				.catch(err => {
-					alert(err.toString()); 	
-				});
-		} catch(err) {
-			alert(err.toString()); 
-		}
+			console.log(event.target); 
+			if (event.target.classList.contains('hidden')) {
+				event.preventDefault(); 
+				alert(event.target.dataset.value); 
+			}
+		}); 
 
 
 	

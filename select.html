@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="theme-color" content="#000" />
+	<title>Flamme Rouge Deck Manager</title>
+
+	<link rel="stylesheet" href="style.css">
+
+	<link rel="manifest" href="manifest.webmanifest">
+
+
+	<style>
+		#app-container {
+			padding: 1em; 
+		}
+
+		form {
+			display: flex; 
+			flex-direction: column;
+			width: 100%; 
+		}
+		input, select, label {
+			font-size: 1.2em;
+		}
+		input, select {
+			margin: .2em; 
+
+		}
+		select {
+			margin-bottom: 2em;
+		}
+	</style>
+</head>
+<body>
+
+	<div id="app-container">
+		<div class="rider-form">
+			<form action="" id="select-form">
+				<label for="team-color">Couleur : </label>
+				<select name="team-color">
+					<option value="red">Rouge</option>
+					<option value="blue">Bleu</option>
+					<option value="green">Vert</option>
+					<option value="black">Noir</option>
+					<option value="pink">Rose</option>
+					<option value="purple">Violet</option>
+				</select>
+
+				<!-- <label for="rider1">Coureur A : </label> -->
+				<input type="text" name="name1" placeholder="Nom" value="Sprinteur">
+				<select name="profile1">
+					<option value="sprinteur">Sprinteur</option>
+					<option value="rouleur">Rouleur</option>
+					<option value="puncheur">Puncheur</option>
+					<option value="polyvalent">Polyvalent</option>
+					<option value="grimpeur">Grimpeur</option>
+					<option value="flahute">Flahute</option>
+					<option value="flandrien">flandrien</option>
+					<option value="descender">Descendeur</option>
+				</select>
+
+				<!-- <label for="rider2">Coureur B : </label> -->
+				<input type="text" name="name2" placeholder="Nom" value="Rouleur">
+				<select name="profile2">
+					<option value="rouleur">Rouleur</option>
+					<option value="sprinteur">Sprinteur</option>
+					<option value="puncheur">Puncheur</option>
+					<option value="polyvalent">Polyvalent</option>
+					<option value="grimpeur">Grimpeur</option>
+					<option value="flahute">Flahute</option>
+					<option value="flandrien">flandrien</option>
+					<option value="descender">Descendeur</option>
+					<option value="domestique">Domestique</option>
+				</select>
+
+				<input type="submit" value="Valider">
+			</form>
+
+
+		</div>
+	</div>
+
+
+	<script>
+
+		const form = document.getElementById('select-form'); 
+		form.addEventListener('submit', event => {
+			event.preventDefault(); 
+			console.log(event.target); 
+			let data = new FormData(form); 
+
+			window.location.href = `index.html?names=${data.get('name1')};${data.get('name2')}&profiles=${data.get('profile1')};${data.get('profile2')}&color=${data.get('team-color')}`; 
+		})
+
+		
+	</script>
+
+</body>
+</html>
