@@ -2,7 +2,7 @@
     "theme_color": "#000",
     "background_color": "#000",
     "display": "fullscreen",
-    "orientation": "landscape", 
+    "orientation": "any", 
     "scope": "./",
     "start_url": "./select.html",
     "name": "Flamme Rouge",
