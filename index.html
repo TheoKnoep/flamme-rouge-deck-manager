@@ -83,7 +83,10 @@
 
 
 		try {
-			screen.orientation.lock('landscape');
+			screen.orientation.lock('landscape')
+				.catch(err => {
+					alert(err.toString()); 	
+				});
 		} catch(err) {
 			alert(err.toString()); 
 		}
