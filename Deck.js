@@ -67,8 +67,11 @@ class Deck {
 		for (let i = 0; i < length; i++) {
 			let textColor = '#fff'; 
 			if (this.cards[i].special === 'montagne') { textColor = 'red' }
+			let exhaustionClass = ''; 
+			if (this.cards[i].special && this.cards[i].special === 'fatigue') {exhaustionClass = 'exhaustion' }
+
 			else if (this.cards[i].special === 'descente') { textColor = 'blue' }
-			htmlInsert += `<a id="cardchoice-${i}" class="${this.id}-cardchoice cardchoice-style" href="#" style="color: ${textColor}">${this.cards[i].value}<br/><span class="small-text">${this.cards[i].special ? this.cards[i].special : ''}</span></a>`; 
+			htmlInsert += `<a id="cardchoice-${i}" class="${this.id}-cardchoice cardchoice-style ${exhaustionClass}" href="#" style="color: ${textColor}" data-value="${this.cards[i].value}">${this.cards[i].value}<br/><span class="small-text">${this.cards[i].special ? this.cards[i].special : ''}</span></a>`; 
 		}
 		return htmlInsert; 
 	}
@@ -77,13 +80,18 @@ class Deck {
 		let index = this.played.length - 1; 
 		let textColor = '#fff'; 
 		if (this.played[index].special === 'montagne') { textColor = 'red' }
+		let exhaustionClass = ''; 
+		if (this.played[index].special === 'fatigue') {exhaustionClass = 'exhaustion' }
+
 		else if (this.played[index].special === 'descente') { textColor = 'blue' }
-		let htmlInsert = `<a id="${this.id}-show-last-played-card" class="${this.id}-cardchoice-style cardchoice-style" href="#" color: ${textColor}">${this.played[index].value}<br/><span class="small-text">${this.played[index].special ? this.played[index].special : ''}</span></a>`; 
+
+		let htmlInsert = `<a id="${this.id}-show-last-played-card" class="${this.id}-cardchoice-style cardchoice-style ${exhaustionClass}" href="#" color: ${textColor}">${this.played[index].value}<br/><span class="small-text">${this.played[index].special ? this.played[index].special : ''}</span></a>`; 
 		return htmlInsert; 
 	}
 
 	displayHiddenCard() {
-		let htmlInsert = `<a id="${this.id}-show-hidden-card" class="${this.id}-cardchoice-style cardchoice-style cardchoice-style--hidden" href="#"); "><span class="small-text"><em>Tapez pour révéler la carte choisie</em></span></a>`; 
+		let index = this.played.length - 1; 
+		let htmlInsert = `<a id="${this.id}-show-hidden-card" class="${this.id}-cardchoice-style cardchoice-style cardchoice-style--hidden" href="#"); " data-value="${this.played[index].value}"><span class="small-text"><em>Tapez pour révéler la carte choisie</em></span></a>`; 
 		return htmlInsert; 
 	}
 
@@ -147,7 +155,7 @@ class Deck {
 	}
 
 	addExhaustion() {
-		this.recycle.push(new Card(2, null, 'exhausted.png')); 
+		this.recycle.push(new Card(2, 'fatigue', 'exhausted.png')); 
 	}
 
 	deleteExhaustion() {
@@ -195,6 +203,8 @@ class Deck {
 			</div>`; 
 		document.querySelector('#app-container').insertAdjacentHTML('beforeend', content); 
 	}
+
+
 
 
 	addEventsHandler() {
@@ -410,6 +420,23 @@ class Deck {
 				new Card(7),
 				new Card(7),
 				new Card(7)
+			], 
+			descender: [
+				new Card(2),
+				new Card(2),
+				new Card(2),
+				new Card(3, ['descente', 'récupération']),
+				new Card(3, ['descente', 'récupération']),
+				new Card(3, ['descente', 'récupération']),
+				new Card(4),
+				new Card(4),
+				new Card(4),
+				new Card(5),
+				new Card(5),
+				new Card(5),
+				new Card(9),
+				new Card(9),
+				new Card(9)
 			]
 		}
 	}

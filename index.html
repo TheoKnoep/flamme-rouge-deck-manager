@@ -66,6 +66,16 @@
 
 
 
+
+
+
+		window.addEventListener('contextmenu', event => {
+				console.log(event.target); 
+				if (event.target.classList.contains('cardchoice-style--hidden')) {
+					event.preventDefault(); 
+					alert(event.target.dataset.value); 
+				}
+			})
 	
 	
 

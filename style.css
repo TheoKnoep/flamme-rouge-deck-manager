@@ -134,6 +134,9 @@ body {
     background-size: cover;
     background-position: center bottom;
 }
+.cardchoice-style.exhaustion {
+	background: radial-gradient(rgb(248, 22, 2), #a50202);
+}
 
 .btn-exhaustion {
 	margin: 12px; 
