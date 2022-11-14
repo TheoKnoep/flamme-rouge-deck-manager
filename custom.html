@@ -65,7 +65,7 @@
 			'super montagne': "Super montagne"
 		}; 
 
-		
+
 		const form1 = document.getElementById('deck1'); 
 		form1.addEventListener('submit', event => {
 			event.preventDefault(); 
@@ -74,13 +74,31 @@
 
 
 		function addSelectSpecial(event) {
-			const list = []; 
+			const list = ["montagne", "super montagne", "récupération", "super aspiration", "endurance", "descente", "troisième file", "pas d'aspiration", "aspiration en montagne", "pas de fatigue", "attaque fulgurante"]; 
 
 			console.log(event.currentTarget.parentElement.querySelectorAll('select'));
 			const otherSelects = event.currentTarget.parentElement.querySelectorAll('select'); 
 			console.log(otherSelects[otherSelects.length-1].value); 
 			if (!otherSelects[otherSelects.length-1].value) { return 'il faut déjà remplir le select existant' }
-			console.log('on ajout un select avec la valeur en moins'); 
+			console.log('on ajoute un select avec la valeur en moins', otherSelects); 
+
+			let listOfValues = []; 
+			for (let i = 0; i < otherSelects.length; i++) {
+				listOfValues.push(otherSelects[i].value); 
+			}
+
+			console.log(listOfValues); 
+
+			let options = ''; 
+			list.forEach(item => {
+				if (listOfValues.indexOf(item) === -1) {
+					options += `<option value="${item}>${specials[item]}</option>"`
+				}
+			}); 
+
+			let newInsert = `<select>${options}</select>`; 
+
+			event.currentTarget.insertAdjacentHTML('beforebegin', newInsert); 
 		}
 
 		
