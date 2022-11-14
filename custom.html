@@ -13,6 +13,10 @@
 
 
 	<style>
+		body {
+			height: auto;
+    		width: auto;
+		}
 		#app-container {
 			padding: 1em; 
 		}
@@ -29,9 +33,34 @@
 			margin: .2em; 
 
 		}
-		select {
-			margin-bottom: 2em;
+
+
+		.rider-form {
+			margin: auto; 
 		}
+
+		.single-card-selector {
+			display: flex;
+			align-items: center;
+		}
+		.single-card-selector label {
+			width: 16px;
+		}
+
+		.select-number {
+			text-align: center;
+			width: 62px;
+		}
+
+		span.special-notice {
+			background: #ffffffb8;
+			padding: 2px;
+			font-family: sans-serif;
+			font-size: 12px;
+		}
+
+
+
 	</style>
 </head>
 <body>
@@ -39,18 +68,28 @@
 	<div id="app-container">
 		<div class="rider-form">
 			<form id="deck1">
-				<div>
+				<input type="text" placeholder="Nom du profil" id="deck-name" name="deck-name">
+				<!-- <div id="card-1">
 					<label>1.</label>
 					<input type="number" name="value1">
 					<select id="special1">
-						<option value="">aucune</option>
+						<option value="">--</option>
 						<option value="montagne">Montagne</option>
 						<option value="super montagne">Super Montagne</option>
+						<option value="aspiration en montagne">Aspiration en montagne</option>
 						<option value="récupération">Récupération</option>
-						<option value="endurance">Pas de fatigue</option>
+						<option value="endurance">Endurance</option>
+						<option value="pas de fatigue">Pas de fatigue</option>
+						<option value="super aspiration">Super aspiration</option>
+						<option value="pas d'aspiration">Pas d'aspiration</option>
+						<option value="descente">Descente</option>
+						<option value="file supplémentaire">File supplémentaire</option>
+						<option value="attaque fulgurante">Attaque fulgurante</option>
 					</select>
+					<span class="special-notice"></span>
 					<button onclick="addSelectSpecial(event);">Ajouter</button>
-				</div>
+				</div> -->
+				
 			</form>
 
 
@@ -61,44 +100,94 @@
 	<script>
 
 		const specials = {
-			'montagne': "Montagne", 
-			'super montagne': "Super montagne"
+			'montagne': {
+				name: "Montagne", 
+				notice: "La limite de mouvement en ascension est de 6 cases au lieu de 5 // Le coureur se déplace de 6 cases s'il passe par au moins une case Ascension"
+			},
+			'super montagne': {
+				name: "Super montagne", 
+				notice: "La limite de mouvement en ascension est de 7 cases au lieu de 5 // Le coureur se déplace de 7 cases s'il passe par au moins une case Ascension"
+			}
 		}; 
 
 
+		// add forms elts : 
+		for (let i = 1; i <= 15; i++) {
+			let newInsert = `
+				<div id="card-${i}" class="single-card-selector">
+					<label>${i}.</label>
+					<input id="value${i}" type="number" name="value${i}" class="select-number" placeholder="Valeur">
+					<select id="special${i}" class="select-special" name="special${i}">
+						<option value="">--</option>
+						<option value="montagne">Montagne</option>
+						<option value="super montagne">Super Montagne</option>
+						<option value="aspiration en montagne">Aspiration en montagne</option>
+						<option value="récupération">Récupération</option>
+						<option value="endurance">Endurance</option>
+						<option value="pas de fatigue">Pas de fatigue</option>
+						<option value="super aspiration">Super aspiration</option>
+						<option value="pas d'aspiration">Pas d'aspiration</option>
+						<option value="descente">Descente</option>
+						<option value="file supplémentaire">File supplémentaire</option>
+						<option value="attaque fulgurante">Attaque fulgurante</option>
+					</select>
+					<span class="special-notice"></span>
+					<!-- <button onclick="addSelectSpecial(event);">Ajouter</button> -->
+				</div>`; 
+
+			document.getElementById('deck1').insertAdjacentHTML('beforeend', newInsert); 
+		}
+		document.getElementById('deck1').insertAdjacentHTML('beforeend', '<input type="submit" value="Enregistrer">'); 
+
+		// update notices : 
+		document.querySelectorAll('select').forEach(select => {
+			select.addEventListener('change', event => {
+				const value = event.target.value; 
+				const noticeContainer = event.target.parentElement.querySelector('.special-notice'); 
+
+				if (specials[value]) {
+					console.log(specials[value].notice); 
+					noticeContainer.textContent = specials[value].notice; 
+				} else  {
+					noticeContainer.textContent = ''; 
+				}
+			})
+		})
+
+
+
+
+		// Submit FORM : 
 		const form1 = document.getElementById('deck1'); 
 		form1.addEventListener('submit', event => {
 			event.preventDefault(); 
-			console.log(event.target); 
+			let data = new FormData(form1); 
+			let list_of_cards = {}; 
+			for (let i = 1; i <= 15; i++) { 
+				list_of_cards[i] = {value: (data.get('value' + i)), special: (data.get('special' + i)) }; 
+			}
+
+			console.log( {name: data.get('deck-name'), cards: list_of_cards } ); 
+
+			// save
+			let existingDecks = JSON.parse(localStorage.getItem('saved-decks')) || []; 
+			existingDecks.push({name: data.get('deck-name'), cards: list_of_cards }); 
+
+			localStorage.setItem('saved-decks', JSON.stringify(existingDecks)); 
 		})
 
 
 		function addSelectSpecial(event) {
 			const list = ["montagne", "super montagne", "récupération", "super aspiration", "endurance", "descente", "troisième file", "pas d'aspiration", "aspiration en montagne", "pas de fatigue", "attaque fulgurante"]; 
+		}
 
-			console.log(event.currentTarget.parentElement.querySelectorAll('select'));
-			const otherSelects = event.currentTarget.parentElement.querySelectorAll('select'); 
-			console.log(otherSelects[otherSelects.length-1].value); 
-			if (!otherSelects[otherSelects.length-1].value) { return 'il faut déjà remplir le select existant' }
-			console.log('on ajoute un select avec la valeur en moins', otherSelects); 
 
-			let listOfValues = []; 
-			for (let i = 0; i < otherSelects.length; i++) {
-				listOfValues.push(otherSelects[i].value); 
+		function prefillFormWithDeck(deck) {
+			document.getElementById('deck-name').value = deck.name; 
+			for (let i = 1; i <= 15; i++) {
+				document.getElementById('value' + i).value = deck.cards[i].value; 
+				document.getElementById('special' + i).value = deck.cards[i].special; 
 			}
-
-			console.log(listOfValues); 
-
-			let options = ''; 
-			list.forEach(item => {
-				if (listOfValues.indexOf(item) === -1) {
-					options += `<option value="${item}>${specials[item]}</option>"`
-				}
-			}); 
-
-			let newInsert = `<select>${options}</select>`; 
-
-			event.currentTarget.insertAdjacentHTML('beforebegin', newInsert); 
 		}
 
 		

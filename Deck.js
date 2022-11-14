@@ -141,7 +141,7 @@ class Deck {
 			this.recyclePlayedCard(playedCard); 
 		} else if (ruleName === 'descente') {
 			alert("Le déplacement en descente est de 7 cases au lieu de 5"); 
-		} else if (ruleName === 'troisième file') {
+		} else if (ruleName === 'file suuplémentaire') {
 			alert("Le coureur peut bénéfier d'une file supplémentaire s'il termine son mouvement sur une case déjà complètement occupée"); 
 		} else if (ruleName === 'pas d\'aspiration') {
 			alert("Le coureur ne permet pas à un autre coureur de bénéficer de son aspiration"); 
