@@ -58,6 +58,37 @@ body {
     flex-wrap: wrap;
 }
 
+
+
+
+.nav-links-container {
+	display: flex; 
+	flex-direction: column; 
+}
+.nav-links-container a {
+	color: #fff; 
+	text-decoration: none;
+	display: block;
+	padding: 1em;
+	text-align: center;
+	width: 320px;
+	background-color: #a63733;
+	border-radius: 4px;
+	margin: .4em 0;
+	font-size: 1.25em; 
+	transition: all 240ms ease;
+}
+.nav-links-container a:active {
+	background-color: #810c81;
+}
+
+
+
+
+/* ======================================================================
+PLAY
+======================================================================= */
+
 .deck-container {
 	width: 50%;
 }

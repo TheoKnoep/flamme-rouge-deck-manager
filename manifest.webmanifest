@@ -4,7 +4,7 @@
     "display": "fullscreen",
     "orientation": "any", 
     "scope": "./",
-    "start_url": "./select.html",
+    "start_url": "./",
     "name": "Flamme Rouge",
     "short_name": "Flamme Rouge",
     "description": "Gérer des profils de coureurs dans Flamme Rouge", 
