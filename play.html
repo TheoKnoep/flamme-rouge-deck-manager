@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="theme-color" content="#000" />
+	<title>Flamme Rouge Deck Manager</title>
+
+	<link rel="stylesheet" href="style.css">
+
+	<link rel="manifest" href="manifest.webmanifest">
+</head>
+<body>
+
+	<div id="app-container">
+	</div>
+
+	
+	
+
+	<script src="Card.js"></script>
+	<script src="Deck.js"></script>
+	<script>		
+		const customDecks = JSON.parse(localStorage.getItem('saved-decks')) || []; 
+		function getDeckByName(name) {
+			for (let i in customDecks) {
+				if (customDecks[i]['name'] === name) {
+					return customDecks[i]; 
+				}
+			}
+			return 'not-found'; 
+		}
+		
+		// INIT RACER WITH PARAMS IN URL : 
+		if (location.hash) {
+			let cleanHash = location.hash.replace('#', ""); 
+			let params = new URLSearchParams(cleanHash); 
+			let names = params.get('names').split(';'); 
+			let profiles = params.get('profiles').split(';'); 
+			let color = params.get('color'); 
+			
+			for (let i = 0; i < 2; i++) {
+				let deck_of_cards = []; 
+				if (Deck.racersProfiles()[profiles[i]]) {
+					deck_of_cards = Deck.racersProfiles()[profiles[i]]; 
+				} else {
+					let list_of_cards = getDeckByName(profiles[i]).cards; 
+					list_of_cards.forEach(card => {
+						deck_of_cards.push(new Card(card.value, card.special)); 
+					})
+				}
+				const newRider = new Deck(names[i], color, deck_of_cards); 
+				newRider.init();
+			}
+		} else { // Default configuration : 1 sprinteur + 1 rouleur 
+			const sprinteur = new Deck('Sprinteur', 'red', Deck.racersProfiles()['sprinteur']); 
+			sprinteur.init(); 
+			const rouleur = new Deck('Rouleur', 'red', Deck.racersProfiles()['rouleur']); 
+			rouleur.init(); 
+		}
+		
+
+		// test : 
+		// const test = new Deck("Test", "purple", Deck.racersProfiles()['pur_grimpeur']); 
+		// test.init(); 
+		// console.log(test); 
+
+
+
+
+
+
+
+		// Util function
+		function checkParentsID(node, id) {
+			if (node && node.id === id) {
+				return true; 
+			} else if (node && node.id !== id) {
+				let parent = node.parentElement; 
+				return checkParentsID(parent, id); 
+			} else {
+				return false; 
+			}
+		}
+		
+
+
+
+
+
+		// allow to check hidden played card by contextmenu action : 
+		window.addEventListener('contextmenu', event => {
+			console.log(event.target); 
+			if (event.target.classList.contains('hidden')) {
+				event.preventDefault(); 
+				alert(event.target.dataset.value); 
+			}
+		}); 
+
+
+	
+
+	</script>
+
+	<script>
+		//install sw : 
+		if ("serviceWorker" in navigator) {
+			navigator.serviceWorker.register("sw.js", {scope: './'} ).then(registration => {
+				console.log("SW Registred!");
+				console.log(registration);
+			}).catch(error => {
+				console.log("SW Failed!");
+				console.log(error)
+			}); 
+		} 
+	</script>
+</body>
+</html>

@@ -51,17 +51,16 @@
 
 				<!-- <label for="rider1">Coureur A : </label> -->
 				<input type="text" name="name1" placeholder="Nom" value="Sprinteur">
-				<select name="profile1">
+				<select name="profile1" class="profileSelector">
 					<option value="sprinteur">Sprinteur</option>
 					<option value="polyvalent">Polyvalent</option>
 					<option value="flahute">Flahute</option>
-					<!-- <option value="flandrien">Flandrien</option> -->
 					<option value="descender">Descendeur</option>
 				</select>
 
 				<!-- <label for="rider2">Coureur B : </label> -->
 				<input type="text" name="name2" placeholder="Nom" value="Rouleur">
-				<select name="profile2">
+				<select name="profile2" class="profileSelector">
 					<option value="rouleur">Rouleur</option>
 					<option value="puncheur">Puncheur</option>
 					<option value="grimpeur">Grimpeur</option>
@@ -80,14 +79,43 @@
 
 	<script>
 
+		// Handle form submit : 
 		const form = document.getElementById('select-form'); 
 		form.addEventListener('submit', event => {
 			event.preventDefault(); 
 			console.log(event.target); 
 			let data = new FormData(form); 
-
-			window.location.href = `index.html?names=${data.get('name1')};${data.get('name2')}&profiles=${data.get('profile1')};${data.get('profile2')}&color=${data.get('team-color')}`; 
+			window.location.href = `play.html#names=${data.get('name1')};${data.get('name2')}&profiles=${data.get('profile1')};${data.get('profile2')}&color=${data.get('team-color')}`; 
 		})
+
+
+		// Handle custom decks : 
+		const customDecks = JSON.parse(localStorage.getItem('saved-decks')) || []; 
+
+		document.querySelectorAll('.profileSelector').forEach(select => {
+			select.insertAdjacentHTML('beforeend', addCustomDecksToSelectLists()); 
+		})
+ 
+
+		function addCustomDecksToSelectLists() {
+			if (!customDecks.length) { return }
+			let output = ''; 
+			customDecks.forEach(deck => {
+				// console.log(deck['name']); 
+				output += `<option value="${encodeURI(deck['name'])}">${deck['name']} <em>(personnalisé)</em></option>`; 
+			})
+			return output; 
+		}
+
+
+		function getDeckByName(name) {
+			for (let i in customDecks) {
+				if (customDecks[i]['name'] === name) {
+					return customDecks[i]; 
+				}
+			}
+			return 'not-found'; 
+		}
 
 		
 	</script>

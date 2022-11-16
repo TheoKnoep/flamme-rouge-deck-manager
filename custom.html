@@ -69,26 +69,28 @@
 		<div class="rider-form">
 			<form id="deck1">
 				<input type="text" placeholder="Nom du profil" id="deck-name" name="deck-name">
-				<!-- <div id="card-1">
-					<label>1.</label>
-					<input type="number" name="value1">
-					<select id="special1">
-						<option value="">--</option>
-						<option value="montagne">Montagne</option>
-						<option value="super montagne">Super Montagne</option>
-						<option value="aspiration en montagne">Aspiration en montagne</option>
-						<option value="récupération">Récupération</option>
-						<option value="endurance">Endurance</option>
-						<option value="pas de fatigue">Pas de fatigue</option>
-						<option value="super aspiration">Super aspiration</option>
-						<option value="pas d'aspiration">Pas d'aspiration</option>
-						<option value="descente">Descente</option>
-						<option value="file supplémentaire">File supplémentaire</option>
-						<option value="attaque fulgurante">Attaque fulgurante</option>
-					</select>
-					<span class="special-notice"></span>
-					<button onclick="addSelectSpecial(event);">Ajouter</button>
-				</div> -->
+				<template>
+					<div id="card-1">
+						<label>1.</label>
+						<input type="number" name="value1">
+						<select id="special1">
+							<option value="">--</option>
+							<option value="montagne">Montagne</option>
+							<option value="super montagne">Super Montagne</option>
+							<option value="aspiration en montagne">Aspiration en montagne</option>
+							<option value="récupération">Récupération</option>
+							<option value="endurance">Endurance</option>
+							<option value="pas de fatigue">Pas de fatigue</option>
+							<option value="super aspiration">Super aspiration</option>
+							<option value="pas d'aspiration">Pas d'aspiration</option>
+							<option value="descente">Descente</option>
+							<option value="file supplémentaire">File supplémentaire</option>
+							<option value="attaque fulgurante">Attaque fulgurante</option>
+						</select>
+						<span class="special-notice"></span>
+						<button onclick="addSelectSpecial(event);">Ajouter</button>
+					</div>
+				</template>
 				
 			</form>
 
@@ -162,24 +164,17 @@
 		form1.addEventListener('submit', event => {
 			event.preventDefault(); 
 			let data = new FormData(form1); 
-			let list_of_cards = {}; 
+			let list_of_cards = []; 
 			for (let i = 1; i <= 15; i++) { 
-				list_of_cards[i] = {value: (data.get('value' + i)), special: (data.get('special' + i)) }; 
+				list_of_cards.push({value: (data.get('value' + i)), special: (data.get('special' + i)) }); 
 			}
 
-			console.log( {name: data.get('deck-name'), cards: list_of_cards } ); 
-
-			// save
+			// save :
 			let existingDecks = JSON.parse(localStorage.getItem('saved-decks')) || []; 
 			existingDecks.push({name: data.get('deck-name'), cards: list_of_cards }); 
 
 			localStorage.setItem('saved-decks', JSON.stringify(existingDecks)); 
 		})
-
-
-		function addSelectSpecial(event) {
-			const list = ["montagne", "super montagne", "récupération", "super aspiration", "endurance", "descente", "troisième file", "pas d'aspiration", "aspiration en montagne", "pas de fatigue", "attaque fulgurante"]; 
-		}
 
 
 		function prefillFormWithDeck(deck) {

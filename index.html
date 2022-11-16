@@ -13,91 +13,14 @@
 </head>
 <body>
 
-	<div id="app-container">
+	<div id="app-container" style="display: flex; justify-content: center; align-items: center; height: 100vh; ">
+		<div class="links-container" style="display: flex; flex-direction: column; ">
+			<a href="play.html">Lancer une partie rapide</a>
+			<a href="select.html">Sélectionner les coureurs</a>
+			<a href="custom.html">Créer votre propre profil de coureur</a>
+		</div>
+
 	</div>
 
-	
-	
-
-	<script src="Card.js"></script>
-	<script src="Deck.js"></script>
-	<script>		
-		// INIT RACER WITH PARAMS IN URL : 
-		if (location.search) {
-			try {
-				let params = new URLSearchParams(location.search); 
-				let names = params.get('names').split(';'); 
-				let profiles = params.get('profiles').split(';'); 
-				let color = params.get('color'); 
-				const riderA = new Deck(names[0], color, Deck.racersProfiles()[profiles[0]]); 
-				riderA.init(); 
-				console.log(riderA); 
-				const riderB = new Deck(names[1], color, Deck.racersProfiles()[profiles[1]]); 
-				riderB.init(); 
-			} catch(err) {
-				alert(err.toString()); 
-			}
-		} else {
-			const sprinteur = new Deck('Sprinteur', 'red', Deck.racersProfiles()['sprinteur']); 
-			sprinteur.init(); 
-			const rouleur = new Deck('Rouleur', 'red', Deck.racersProfiles()['rouleur']); 
-			rouleur.init(); 
-		}
-		
-
-		// test : 
-		// const test = new Deck("Test", "purple", Deck.racersProfiles()['pur_grimpeur']); 
-		// test.init(); 
-		// console.log(test); 
-
-
-
-
-
-
-
-		// Util function
-		function checkParentsID(node, id) {
-			if (node && node.id === id) {
-				return true; 
-			} else if (node && node.id !== id) {
-				let parent = node.parentElement; 
-				return checkParentsID(parent, id); 
-			} else {
-				return false; 
-			}
-		}
-		
-
-
-
-
-
-		// allow to check hidden played card by contextmenu action : 
-		window.addEventListener('contextmenu', event => {
-			console.log(event.target); 
-			if (event.target.classList.contains('hidden')) {
-				event.preventDefault(); 
-				alert(event.target.dataset.value); 
-			}
-		}); 
-
-
-	
-
-	</script>
-
-	<script>
-		//install sw : 
-		if ("serviceWorker" in navigator) {
-			navigator.serviceWorker.register("sw.js", {scope: './'} ).then(registration => {
-				console.log("SW Registred!");
-				console.log(registration);
-			}).catch(error => {
-				console.log("SW Failed!");
-				console.log(error)
-			}); 
-		} 
-	</script>
 </body>
 </html>

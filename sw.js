@@ -6,6 +6,7 @@ self.addEventListener("install", function (event) {
             './', 
             'index.html', 
             'select.html', 
+            'play.html',
             'style.css', 
             'icon/icon_512x512.png',
             'icon/icon_384x384.png',
