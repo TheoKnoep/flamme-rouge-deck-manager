@@ -494,6 +494,39 @@ class Deck {
 				new Card(6, 'super montagne'),
 				new Card(6, 'super montagne'),
 				new Card(6, 'super montagne') 
+			], 
+			flandrien: [
+				new Card(3),
+				new Card(3),
+				new Card(3),
+				new Card(4, 'super aspiration'),
+				new Card(4, 'super aspiration'),
+				new Card(4),
+				new Card(5, 'super aspiration'),
+				new Card(5, 'super aspiration'),
+				new Card(5),
+				new Card(6),
+				new Card(6),
+				new Card(6),
+				new Card(7),
+				new Card(7),
+				new Card(7)
+			], 
+			baroudeur: [
+				new Card(3),
+				new Card(3),
+				new Card(4),
+				new Card(4),
+				new Card(4),
+				new Card(5),
+				new Card(5),
+				new Card(6),
+				new Card(6),
+				new Card(7),
+				new Card(7),
+				new Card(5, ["pas d'aspiration","pas de fatigue"]), 
+				new Card(6, ["pas d'aspiration","pas de fatigue"]), 
+				new Card(7, ["pas d'aspiration","pas de fatigue"])
 			]
 		}
 	}
